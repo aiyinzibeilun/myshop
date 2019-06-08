@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    config:
+      # master 分支
+      label: master
+      #配置文件名称
+      name: spring-admin
+      #激活配置
+      profile: dev
+      #配置中心地址
+      uri: http://localhost:3001

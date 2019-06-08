@@ -1,0 +1,56 @@
+server:
+  port: 8002
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://19.168.47.131:${server.port}/eureka/
+  instance:
+    prefer-ip-address: true
+spring:
+  application:
+    name: myshop-service-redis
+  redis:
+    lettuce:
+      pool:
+        max-active: 8
+        min-idle: 0
+        max-wait: -1ms
+        max-idle: 8
+    sentinel:
+      master: mymaster
+      nodes: 192.168.47.131:26379,192.168.47.131:26380,192.168.47.131:26381
+  boot:
+    admin:
+      client:
+        api-path: http://19.168.47.131:4001
+  cloud:
+    config:
+      # master 分支
+      label: master
+      #配置文件名称
+      name: myshop-service-redis
+      #激活配置
+      profile: dev
+      #配置中心地址
+      uri: 19.168.47.131:3001
+  #链路跟踪
+  zipkin:
+    base-url: http://19.168.47.131:6001
+  sleuth:
+    sampler:
+      probability: 1.0 #采样比例
+  main:
+    allow-bean-definition-overriding: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+

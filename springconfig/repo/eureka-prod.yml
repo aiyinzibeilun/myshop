@@ -1,0 +1,44 @@
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://192.168.47.131:8761/eureka/
+  instance:
+    prefer-ip-address: true
+spring:
+  application:
+    name: eureka
+  boot:
+    admin:
+      client:
+        api-path: http://192.168.47.131:4001
+  cloud:
+    config:
+      # master 分支
+      label: master
+      #配置文件名称
+      name: eureka
+      #激活配置
+      profile: prod
+      #配置中心地址
+      uri: 192.168.47.131:3001
+  #链路跟踪
+  zipkin:
+    base-url: http://192.168.47.131:6001
+  sleuth:
+    sampler:
+      probability: 1.0 #采样比例
+  main:
+    allow-bean-definition-overriding: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

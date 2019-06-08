@@ -1,0 +1,79 @@
+server:
+  port: 8001
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:${server.port}/eureka/
+  instance:
+    prefer-ip-address: true
+spring:
+  application:
+    name: myshop-service-admin
+  boot:
+    admin:
+      client:
+        api-path: http://localhost:4001
+  datasource:
+    url: jdbc:mysql://localhost:3306/myshop?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initialSize: 10
+      minIdle: 10
+      maxActive: 200
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 30000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      # 配置监控统计拦截的filters
+      filters: stat,wall,slf4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  cloud:
+    config:
+      # master 分支
+      label: master
+      #配置文件名称
+      name: eureka
+      #激活配置
+      profile: dev
+      #配置中心地址
+      uri: localhost:3001
+  #链路跟踪
+  zipkin:
+    base-url: http://localhost:6001
+  sleuth:
+    sampler:
+      probability: 1.0 #采样比例
+  main:
+    allow-bean-definition-overriding: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+mybatis:
+  #实体类路径
+  type-aliases-package: com.myshop.common.domain
+  mapper-locations: classpath:mapper/*.xml
+  #开启二级缓存
+  configuration:
+    cache-enabled: true
+

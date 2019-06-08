@@ -1,0 +1,37 @@
+server:
+  port: 6001
+spring:
+  application:
+    name: zipkin
+  boot:
+    admin:
+      client:
+        api-path: http://localhost:4001
+  cloud:
+    config:
+      # master 分支
+      label: master
+      #配置文件名称
+      name: eureka
+      #激活配置
+      profile: dev
+      #配置中心地址
+      uri: localhost:3001
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+#不配置会报错
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
+
+
+
+
+

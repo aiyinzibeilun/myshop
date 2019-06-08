@@ -1,0 +1,33 @@
+stages:
+  - build
+  - push
+  - deploy
+  - clean
+
+build:
+  stage: build
+  script:
+  - /usr/local/maven/apache-maven-3.6.1/bin/mvn clean package
+  - cp target/eureka-1.0.0-SNAPSHOT.jar docker/
+  - cd docker
+  - docker build -t 192.168.47.128:5000/eureka .
+
+push:
+  stage: push
+  script:
+  - docker push 192.168.47.128:5000/eureka
+
+deploy:
+  stage: deploy
+  script:
+  - cd docker
+  - docker-compose down
+  - docker pull 192.168.47.128:5000/eureka
+  - docker-compose up -d
+#删除所有虚悬镜像
+clean:
+  stage: clean
+  script:
+  - docker rmi $(docker images -q -f dangling=true)
+
+

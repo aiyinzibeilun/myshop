@@ -1,0 +1,66 @@
+server:
+  port: 7001
+spring:
+  application:
+    name: zuul
+  boot:
+    admin:
+      client:
+        api-path: http://localhost:4001
+
+  cloud:
+    config:
+      # master 分支
+      label: master
+      #配置文件名称
+      name: eureka
+      #激活配置
+      profile: dev
+      #配置中心地址
+      uri: localhost:3001
+  #链路跟踪
+  zipkin:
+    base-url: http://localhost:6001
+  sleuth:
+    sampler:
+      probability: 1.0 #采样比例
+  main:
+    allow-bean-definition-overriding: true
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    status-page-url: http://${eureka.instance.hostname}:${server.port}/swagger-ui.html
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+#zuul:
+#  routes:
+#    consumer:
+#      path: /consumer/**
+#    producter:
+#      path: /producter/**
+#  ratelimit:
+#    behind-proxy: true #表示代理之后
+#    key-prefix: consumer #按粒度拆分的临时变量key前缀
+#    enabled: true #启用
+#    repository: in_memory #key存储类型，默认是IN_MEMORY本地内存，此外还有多种形式例如： redis(可能需要大写)
+#    default-policy: #全局限流策略，可单独细化到服务粒度
+#      limit: 2  #可选- 每个刷新时间窗口对应的请求数量限制
+#      quota: 1 #可选-  每个刷新时间窗口对应的请求时间限制（秒）
+#      refresh-interval: 3 #刷新时间窗口的时间，默认值 (秒)
+#      type:
+#        - user #可指定用户粒度
+#        - origin #可指定客户端地址粒度
+#        - url #可指定url粒度
+#    policies: #对consumer 服务进行特殊限流配置
+#      consumer:
+#        limit: 5
+#        quota: 5
+#        refresh-interval: 10
+
+
+
+
+

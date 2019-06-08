@@ -1,0 +1,59 @@
+server:
+  port: 9001
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+spring:
+  application:
+    name: myshop-web-admin
+  boot:
+    admin:
+      client:
+        api-path: http://localhost:4001
+
+  cloud:
+    config:
+      # master 分支
+      label: master
+      #配置文件名称
+      name: myshop-web-admin
+      #激活配置
+      profile: dev
+      #配置中心地址
+      uri: localhost:3001
+  #链路跟踪
+  zipkin:
+    base-url: http://localhost:6001
+  sleuth:
+    sampler:
+      probability: 1.0 #采样比例
+  main:
+    allow-bean-definition-overriding: true
+
+  thymeleaf:
+    cache: false
+    #非严格的html
+    mode: LEGACYHTML5
+    encoding: utf-8
+    servlet:
+      content-type: text/html
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+feign:
+  hystrix:
+    enabled: true
+

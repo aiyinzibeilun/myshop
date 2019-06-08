@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: springconfig
+  cloud:
+    config:
+      label: master
+      server:
+        git:
+          uri: http://192.168.47.128/myshop/springconfig.git
+          password: 12345678
+          username: user
+          #\u6307\u5B9A\u8BFB\u53D6\u76EE\u5F55\uFF0C\u53EF\u4EE5\u4E0D\u914D
+          search-paths: repo
+server:
+  port: 3001
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+

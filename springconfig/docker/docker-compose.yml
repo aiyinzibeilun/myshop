@@ -1,0 +1,15 @@
+version: '3.0'
+services:
+  springconfig:
+    restart: always
+    image: 192.168.47.128:5000/springconfig
+    container_name: springconfig
+    ports:
+      - 3001:3001
+#    network_mode: "host"
+    networks:
+      - springconfig_network
+networks:
+  springconfig_network:
+
+

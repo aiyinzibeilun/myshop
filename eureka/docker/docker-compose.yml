@@ -1,0 +1,15 @@
+version: '3.0'
+services:
+  eureka:
+    restart: always
+    image: 192.168.47.128:5000/eureka
+    container_name: eureka
+    ports:
+      - 8761:8761
+#    network_mode: "host"
+    networks:
+      - eureka_network
+networks:
+  eureka_network:
+
+
